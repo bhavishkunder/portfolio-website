@@ -3,7 +3,7 @@
 <div align="center">
   
   [![Live Demo](https://img.shields.io/badge/Live_Demo-2ECC71?style=for-the-badge&logo=vercel&logoColor=white)](#)
-  [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/bhavishkunder/portfolio)
+  [![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/bhavishkunder/portfolio-website)
 
 </div>
 

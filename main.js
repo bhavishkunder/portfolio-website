@@ -33,9 +33,9 @@ const filterItems = document.querySelectorAll("[data-filter-item]")
 
 const filterFunc = (selectedValue) => {
   for (let i = 0; i < filterItems.length; i++) {
-    if (selectedValue == "all") {
+    if (selectedValue === "all") {
       filterItems[i].classList.add("active")
-    } else if (selectedValue == filterItems[i].dataset.category) {
+    } else if (selectedValue === filterItems[i].dataset.category) {
       filterItems[i].classList.add("active")
     } else {
       filterItems[i].classList.remove("active")
@@ -58,21 +58,20 @@ for (let i = 0; i < filterBtn.length; i++) {
   })
 }
 
-
 // Enabling Page Navigation
 const navigationLinks = document.querySelectorAll("[data-nav-link]")
 const pages = document.querySelectorAll("[data-page]")
 
 for (let i = 0; i < navigationLinks.length; i++) {
   navigationLinks[i].addEventListener("click", function () {
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() == pages[i].dataset.page) {
-        pages[i].classList.add("active")
+    for (let j = 0; j < pages.length; j++) {
+      if (this.innerHTML.toLowerCase() === pages[j].dataset.page) {
+        pages[j].classList.add("active")
         navigationLinks[i].classList.add("active")
         window.scrollTo(0, 0)
       } else {
-        pages[i].classList.remove("active")
-        navigationLinks[i].classList.remove("active")
+        pages[j].classList.remove("active")
+        navigationLinks[j].classList.remove("active")
       }
     }
   })
@@ -88,64 +87,14 @@ function isInViewport(element) {
 // Initialize hexagons
 document.addEventListener("DOMContentLoaded", () => {
   const hexagons = document.querySelectorAll(".hex")
-  const skillCategoryBtns = document.querySelectorAll(".skill-category-btn")
-
-  // Add event listeners to category buttons
-  skillCategoryBtns.forEach((btn) => {
-    btn.addEventListener("click", function () {
-      // Remove active class from all buttons
-      skillCategoryBtns.forEach((b) => b.classList.remove("active"))
-
-      // Add active class to clicked button
-      this.classList.add("active")
-
-      const category = this.dataset.category
-
-      // Filter hexagons based on category
-      hexagons.forEach((hex) => {
-        if (category === "all" || hex.dataset.skill === category) {
-          hex.style.display = "block"
-          setTimeout(() => {
-            hex.classList.add("visible")
-          }, 100)
-        } else {
-          hex.classList.remove("visible")
-          setTimeout(() => {
-            hex.style.display = "none"
-          }, 500)
-        }
-      })
-    })
-  })
 
   // Initial animation on page load
   animateHexagonsOnScroll()
 
   // Add scroll event listener
   window.addEventListener("scroll", animateHexagonsOnScroll)
-})
-
-function animateHexagonsOnScroll() {
-  const hexagons = document.querySelectorAll(".hex")
-  const honeycombContainer = document.querySelector(".honeycomb-container")
-
-  if (honeycombContainer && isInViewport(honeycombContainer)) {
-    hexagons.forEach((hex, index) => {
-      setTimeout(() => {
-        hex.classList.add("visible")
-      }, index * 50) // Stagger the animations
-    })
-  } else if (honeycombContainer && !isInViewport(honeycombContainer)) {
-    hexagons.forEach((hex) => {
-      hex.classList.remove("visible")
-    })
-  }
-}
-
-// Add hover effect to highlight connected technologies
-document.addEventListener("DOMContentLoaded", () => {
-  const hexagons = document.querySelectorAll(".hex")
-
+  
+  // Add hover effect to highlight connected technologies
   hexagons.forEach((hex) => {
     hex.addEventListener("mouseenter", function () {
       // Add active class to hovered hexagon
@@ -171,6 +120,23 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   })
 })
+
+function animateHexagonsOnScroll() {
+  const hexagons = document.querySelectorAll(".hex")
+  const honeycombContainer = document.querySelector(".honeycomb-container")
+
+  if (honeycombContainer && isInViewport(honeycombContainer)) {
+    hexagons.forEach((hex, index) => {
+      setTimeout(() => {
+        hex.classList.add("visible")
+      }, index * 50) // Stagger the animations
+    })
+  } else if (honeycombContainer && !isInViewport(honeycombContainer)) {
+    hexagons.forEach((hex) => {
+      hex.classList.remove("visible")
+    })
+  }
+}
 
 // Typewriter effect for name
 document.addEventListener("DOMContentLoaded", () => {
@@ -242,39 +208,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const windowHeight = window.innerHeight
 
       if (itemTop < windowHeight * 0.8) {
-        item.classList.add("timeline-visible")
-
-        // Animate the connecting line for this item
-        if (index > 0) {
-          const prevItem = timelineItems[index - 1]
-          if (prevItem.classList.contains("timeline-visible")) {
-            const connector = item.querySelector(".timeline-connector")
-            if (connector) {
-              connector.classList.add("timeline-connector-visible")
-            }
-          }
-        }
-      }
-    })
-  }
-
-  // Initial check on page load
-  animateTimeline()
-
-  // Check on scroll
-  window.addEventListener("scroll", animateTimeline)
-})
-
-// Enhanced animated timeline for resume section
-document.addEventListener("DOMContentLoaded", () => {
-  const timelineItems = document.querySelectorAll(".timeline-item")
-
-  function animateTimeline() {
-    timelineItems.forEach((item, index) => {
-      const itemTop = item.getBoundingClientRect().top
-      const windowHeight = window.innerHeight
-
-      if (itemTop < windowHeight * 0.8) {
         // Add a staggered delay based on the item index
         setTimeout(() => {
           item.classList.add("timeline-visible")
@@ -301,103 +234,84 @@ document.addEventListener("DOMContentLoaded", () => {
       this.style.boxShadow = "0 5px 15px rgba(0, 0, 0, 0.1)"
     })
   })
-
-  // Add progress bar animation for skills
-  const skillBars = document.querySelectorAll(".skill-progress-bar")
-
-  function animateSkillBars() {
-    skillBars.forEach((bar) => {
-      const barTop = bar.getBoundingClientRect().top
-      const windowHeight = window.innerHeight
-
-      if (barTop < windowHeight * 0.9) {
-        const targetWidth = bar.getAttribute("data-progress")
-        bar.style.width = targetWidth
-        bar.style.opacity = 1
-      }
-    })
-  }
-
-  // Initial check and scroll listener for skill bars
-  setTimeout(animateSkillBars, 500)
-  window.addEventListener("scroll", animateSkillBars)
 })
 
 // Initialize EmailJS
 let emailjs = window.emailjs
-document.addEventListener('DOMContentLoaded', function () {
+let particlesJS = window.particlesJS
+
+document.addEventListener('DOMContentLoaded', function() {
   if (typeof emailjs !== 'undefined') {
-    emailjs.init("4xOgnQ0S5JTVaiHHd");
+    emailjs.init("4xOgnQ0S5JTVaiHHd")
   }
-});
+})
 
 function sendContactEmail() {
   // Get form values
-  const name = document.getElementById('contact-name').value;
-  const email = document.getElementById('contact-email').value;
-  const message = document.getElementById('contact-message').value;
-
+  const name = document.getElementById('contact-name').value
+  const email = document.getElementById('contact-email').value
+  const message = document.getElementById('contact-message').value
+  
   // Check if all fields are filled
   if (!name || !email || !message) {
-    showContactResult('Please fill all fields', false);
-    return;
+    showContactResult('Please fill all fields', false)
+    return
   }
-
+  
   // Prepare template parameters
   const templateParams = {
     name: name,
     from_name: name,
     from_email: email,
     message: message
-  };
-
+  }
+  
   // Show loading state
-  const button = document.getElementById('contact-submit-btn');
-  const originalText = button.innerHTML;
-  button.innerHTML = '<ion-icon name="hourglass-outline"></ion-icon><span>Sending...</span>';
-  button.disabled = true;
-
+  const button = document.getElementById('contact-submit-btn')
+  const originalText = button.innerHTML
+  button.innerHTML = '<ion-icon name="hourglass-outline"></ion-icon><span>Sending...</span>'
+  button.disabled = true
+  
   // Send email
   emailjs.send('service_9j7ufc5', 'template_7udoy4x', templateParams)
-    .then(function (response) {
-      console.log('SUCCESS!', response.status, response.text);
-      showContactResult('Message sent successfully!', true);
-
+    .then(function(response) {
+      console.log('SUCCESS!', response.status, response.text)
+      showContactResult('Message sent successfully!', true)
+      
       // Reset form
-      document.getElementById('contact-name').value = '';
-      document.getElementById('contact-email').value = '';
-      document.getElementById('contact-message').value = '';
+      document.getElementById('contact-name').value = ''
+      document.getElementById('contact-email').value = ''
+      document.getElementById('contact-message').value = ''
     })
-    .catch(function (error) {
-      console.error('FAILED...', error);
-      showContactResult('Failed to send message: ' + error.text, false);
+    .catch(function(error) {
+      console.error('FAILED...', error)
+      showContactResult('Failed to send message: ' + error.text, false)
     })
-    .finally(function () {
+    .finally(function() {
       // Reset button after delay
-      setTimeout(function () {
-        button.innerHTML = originalText;
-        button.disabled = false;
-      }, 2000);
-    });
+      setTimeout(function() {
+        button.innerHTML = originalText
+        button.disabled = false
+      }, 2000)
+    })
 }
 
 function showContactResult(message, isSuccess) {
-  const resultDiv = document.getElementById('contact-result');
-  resultDiv.innerHTML = message;
-  resultDiv.style.display = 'block';
-
+  const resultDiv = document.getElementById('contact-result')
+  resultDiv.innerHTML = message
+  resultDiv.style.display = 'block'
+  
   if (isSuccess) {
-    resultDiv.style.backgroundColor = '#dff0d8';
-    resultDiv.style.color = '#3c763d';
+    resultDiv.style.backgroundColor = '#dff0d8'
+    resultDiv.style.color = '#3c763d'
   } else {
-    resultDiv.style.backgroundColor = '#f2dede';
-    resultDiv.style.color = '#a94442';
+    resultDiv.style.backgroundColor = '#f2dede'
+    resultDiv.style.color = '#a94442'
   }
 }
 
 // Premium Loading Screen Functionality
-let particlesJS = window.particlesJS
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
   // Initialize particles.js if available
   if (typeof particlesJS !== 'undefined') {
     particlesJS('particles-js', {
@@ -484,14 +398,14 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       },
       retina_detect: true
-    });
+    })
   }
 
   // Loading animation
-  const loaderContainer = document.querySelector('.loader-container');
-  const progressFill = document.querySelector('.progress-fill');
-  const progressPercentage = document.querySelector('.progress-percentage');
-  const loadingText = document.querySelector('.loading-text');
+  const loaderContainer = document.querySelector('.loader-container')
+  const progressFill = document.querySelector('.progress-fill')
+  const progressPercentage = document.querySelector('.progress-percentage')
+  const loadingText = document.querySelector('.loading-text')
 
   // Loading text animation
   const loadingTexts = [
@@ -500,70 +414,70 @@ document.addEventListener('DOMContentLoaded', function () {
     'RENDERING INTERFACE',
     'OPTIMIZING EXPERIENCE',
     'FINALIZING'
-  ];
-
-  let currentTextIndex = 0;
-
+  ]
+  
+  let currentTextIndex = 0
+  
   // Change loading text every second
   const textInterval = setInterval(() => {
-    currentTextIndex = (currentTextIndex + 1) % loadingTexts.length;
-
+    currentTextIndex = (currentTextIndex + 1) % loadingTexts.length
+    
     // Fade out current text
-    loadingText.style.opacity = '0';
-
+    loadingText.style.opacity = '0'
+    
     // Change text and fade in after a short delay
     setTimeout(() => {
-      loadingText.textContent = loadingTexts[currentTextIndex];
-      loadingText.style.opacity = '1';
-    }, 300);
-  }, 1500);
+      loadingText.textContent = loadingTexts[currentTextIndex]
+      loadingText.style.opacity = '1'
+    }, 300)
+  }, 1500)
 
   // Progress animation
-  let progress = 0;
-  const duration = 5000; // 5 seconds total
-  const interval = 30; // Update every 30ms
-  const increment = (interval / duration) * 100;
-
+  let progress = 0
+  const duration = 5000 // 5 seconds total
+  const interval = 30 // Update every 30ms
+  const increment = (interval / duration) * 100
+  
   // Update progress bar
   const progressInterval = setInterval(() => {
-    progress += increment;
-
+    progress += increment
+    
     if (progress >= 100) {
-      progress = 100;
-      clearInterval(progressInterval);
-      clearInterval(textInterval);
-
+      progress = 100
+      clearInterval(progressInterval)
+      clearInterval(textInterval)
+      
       // Complete loading
       setTimeout(() => {
-        loaderContainer.classList.add('hidden');
-        document.body.classList.remove('loading');
-      }, 500);
+        loaderContainer.classList.add('hidden')
+        document.body.classList.remove('loading')
+      }, 500)
     }
-
+    
     // Update progress bar and text
-    progressFill.style.width = `${progress}%`;
-    progressPercentage.textContent = Math.round(progress);
-
+    progressFill.style.width = `${progress}%`
+    progressPercentage.textContent = Math.round(progress)
+    
     // Add special effects at milestones
     if (Math.round(progress) === 25 || Math.round(progress) === 50 || Math.round(progress) === 75) {
       // Pulse effect on logo
-      document.querySelector('.logo-svg').style.filter = 'brightness(1.5)';
+      document.querySelector('.logo-svg').style.filter = 'brightness(1.5)'
       setTimeout(() => {
-        document.querySelector('.logo-svg').style.filter = 'brightness(1)';
-      }, 200);
+        document.querySelector('.logo-svg').style.filter = 'brightness(1)'
+      }, 200)
     }
-  }, interval);
+  }, interval)
 
   // Create dynamic glow effect on orbital dots
-  const orbitalDots = document.querySelectorAll('.orbital-dot');
-
+  const orbitalDots = document.querySelectorAll('.orbital-dot')
+  
   orbitalDots.forEach(dot => {
     // Random pulse animation
     setInterval(() => {
-      dot.style.boxShadow = '0 0 15px #4cc9f0, 0 0 30px rgba(76, 201, 240, 0.7)';
+      dot.style.boxShadow = '0 0 15px #4cc9f0, 0 0 30px rgba(76, 201, 240, 0.7)'
       setTimeout(() => {
-        dot.style.boxShadow = '0 0 10px #4cc9f0, 0 0 20px rgba(76, 201, 240, 0.5)';
-      }, 300);
-    }, 2000 + Math.random() * 2000);
-  });
-});
+        dot.style.boxShadow = '0 0 10px #4cc9f0, 0 0 20px rgba(76, 201, 240, 0.5)'
+      }, 300)
+    }, 2000 + Math.random() * 2000)
+  })
+})
